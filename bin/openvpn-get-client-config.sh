@@ -14,7 +14,7 @@ resolv-retry infinite
 cipher AES-128-CBC
 auth SHA1
 nobind
-tun-mtu 1400
+link-mtu 1500
 persist-key
 persist-tun
 comp-lzo
