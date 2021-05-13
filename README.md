@@ -285,11 +285,11 @@ Everything is stored in `/etc/openvpn`.
 
 
 
-## 示例
+## 教程之 rancher2 搭建 openvpn 服务
 
 
 
-部署 openvpn
+部署 openvpn 服务
 
 ![image-20210513202931681](assets/image-20210513202931681.png)
 
