@@ -37,7 +37,7 @@ Next two variables are used in client configuration generation process,
 to indicate OpenVPN clients where to connect to establish the link
 - REMOTE_IP="ipOrHostname"
 - REMOTE_PORT="1194"
- 
+
 If you don't want to expose the full Rancher network, you can set your own network
 and netmask with following variables:
 - ROUTE_NETWORK="10.42.0.0"
@@ -69,7 +69,7 @@ Here is the minimal docker run example with **httpbasic** authentication :
 docker run -d --privileged=true -p 1194:1194 \
     -e AUTH_METHOD=httpbasic \
     -e AUTH_HTTPBASIC_URL=https://api.github.com/user \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 
 And here is an exhaustive docker run example with ldap authentication :
@@ -101,7 +101,7 @@ docker run -d \
     -v /etc/openvpn \
     --name=vpn \
     -p 1194:1194 \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 
 Note bene : First launch takes more time because of certificates and private keys generation
@@ -124,7 +124,7 @@ You can test authentication against the GitHub api server :
 docker run -d --privileged=true -p 1194:1194 \
     -e AUTH_METHOD=httpbasic \
     -e AUTH_HTTPBASIC_URL=https://api.github.com/user \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 
 **Warning ! If you use GitHub api url in production, anyone who has a github account will be able to connect your VPN !!**
@@ -142,7 +142,7 @@ You can test authentication against the httpbin sandbox server :
 docker run -d --privileged=true -p 1194:1194 \
     -e AUTH_METHOD=httpdigest \
     -e AUTH_HTTPDIGEST_URL=https://httpbin.org/digest-auth/auth/myuser/mypwd \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 
 
@@ -172,7 +172,7 @@ docker run -d --privileged=true -p 1194:1194 --link ldap:ldapsrv \
     -e AUTH_LDAP_SEARCH='(uid=$username)' \
     -e AUTH_LDAP_BINDDN='cn=admin,dc=acme,dc=tld' \
     -e AUTH_LDAP_BINDPWD='mypwd' \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 ---
 
@@ -189,7 +189,7 @@ You can test authentication against the Rancher api server :
 docker run -d --privileged=true -p 1194:1194 \
     -e AUTH_METHOD=rancherlocal \
     -e AUTH_RANCHERLOCAL_URL=https://rancher.example.com/v1/token \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 
 ### Rancher2 Server in local mode
@@ -198,14 +198,14 @@ Authentication is made by trying to connect to a Rancher2 Server configured in l
 
 Each variable is mandatory :
 - AUTH_METHOD=rancher2local
-- AUTH_RANCHER2LOCAL_URL is the http server url, ex : AUTH_RANCHERLOCAL_URL='http[s]://hostname[:port]/v3'
+- AUTH_RANCHER2LOCAL_URL is the http server url, ex : AUTH_RANCHER2LOCAL_URL='http[s]://hostname[:port]/v3'
 
-You can test authentication against the Rancher api server :
+You can test authentication against the Rancher2 api server :
 ```sh
 docker run -d --privileged=true -p 1194:1194 \
     -e AUTH_METHOD=rancher2local \
     -e AUTH_RANCHER2LOCAL_URL=https://rancher.example.com/v3 \
-    mdns/rancher-openvpn
+    tandaly/rancher-openvpn
 ```
 
 ## Client configuration
@@ -281,7 +281,65 @@ X0yOqF6doV0+DPt5T+vEeu9oiczscg==
 
 ## Volumes and data conservation
 
-Everything is stored in /etc/openvpn.
+Everything is stored in `/etc/openvpn`.
+
+
+
+## 示例
+
+
+
+部署 openvpn
+
+![image-20210513202931681](assets/image-20210513202931681.png)
+
+
+
+![image-20210513202958044](assets/image-20210513202958044.png)
+
+
+
+
+
+![image-20210513203012755](assets/image-20210513203012755.png)
+
+
+
+获取 ovpn，openvpn 客户端连接时用，`ipOrHostname` 改成 openvpn 服务器的 ip
+
+![image-20210513203134705](assets/image-20210513203134705.png)
+
+
+
+
+
+新建 rancher2 登录用户名和密码
+
+![image-20210513203232662](assets/image-20210513203232662.png)
+
+
+
+
+
+![image-20210513203259139](assets/image-20210513203259139.png)
+
+
+
+
+
+
+
+最后下载 openvpn 客户端，导入ovpn 配置文件，连接输入用户名和密码即可。
+
+
+
+## 通过客户端连接
+
+
+
+openvpn下载地址：https://openvpn.net/community-downloads/
+
+
 
 
 ## 来源：
